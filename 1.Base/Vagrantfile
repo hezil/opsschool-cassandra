@@ -1,0 +1,41 @@
+if ENV['DEB_CACHE_HOST']
+  deb_cache_host = ENV['DEB_CACHE_HOST']
+  deb_cache_file = "02_set_deb_cache.sh"
+else
+  deb_cache_file = "02_no_deb_cache.sh"
+end
+
+servers=[
+{
+  :hostname => "cassandra1",
+  :ip => "192.168.100.10",
+  :box => "ubuntu/trusty64",
+  :memory => 3000,
+  :cpus => 1,
+  :provisions => ["01_set_time_zone.sh",deb_cache_file,"03_install_java.sh"]
+}
+]
+
+etc_hosts = "127.0.0.1       localhost"
+servers.each do |node|
+  etc_hosts += "#{node[:ip]} #{node[:hostname]}\n"
+end
+
+Vagrant.configure(2) do |config|
+  servers.each do |machine|
+    config.vm.define machine[:hostname] do |node|
+        machine [:provisions].each do |script|
+           node.vm.provision :shell, :path => script
+        end
+      node.vm.box = machine[:box]
+      node.vm.hostname = machine[:hostname]
+      node.vm.network "private_network", ip: machine[:ip]
+      node.vm.provider "virtualbox" do |vb|
+        vb.memory = machine[:memory]
+        vb.cpus = machine[:cpus]
+      end
+    end
+  end
+end
+
+

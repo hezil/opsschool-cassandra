@@ -1,0 +1,4 @@
+.vagrant
+ignore_*
+*.out.txt
+*.run
