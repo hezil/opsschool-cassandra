@@ -40,7 +40,7 @@ Resources:
       KeyName: !Ref 'KeyName'
       SecurityGroups:
         - !Ref SSHSecurityGroup
-        - !Ref ServerSecurityGroup
+        - !Ref CassandraSecurityGroup
       UserData:
         Fn::Base64: |
           #!/bin/bash
@@ -70,7 +70,7 @@ Resources:
       KeyName: !Ref 'KeyName'
       SecurityGroups:
         - !Ref SSHSecurityGroup
-        - !Ref ServerSecurityGroup
+        - !Ref CassandraSecurityGroup
       UserData:
         Fn::Base64: |
           #!/bin/bash
@@ -99,7 +99,7 @@ Resources:
       KeyName: !Ref 'KeyName'
       SecurityGroups:
         - !Ref SSHSecurityGroup
-        - !Ref ServerSecurityGroup
+        - !Ref CassandraSecurityGroup
       UserData:
         Fn::Base64: |
           #!/bin/bash
@@ -167,15 +167,4 @@ Resources:
       - IpProtocol: tcp
         FromPort: '9160'
         ToPort: '9160'
-        CidrIp: 0.0.0.0/0
-
-  ServerSecurityGroup:
-    # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: allow connections from specified CIDR ranges
-      SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
         CidrIp: 0.0.0.0/0
