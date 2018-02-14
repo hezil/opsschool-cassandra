@@ -1,4 +1,3 @@
-@REM
 @REM  Licensed to the Apache Software Foundation (ASF) under one or more
 @REM  contributor license agreements.  See the NOTICE file distributed with
 @REM  this work for additional information regarding copyright ownership.
@@ -15,27 +14,10 @@
 @REM  limitations under the License.
 
 @echo off
+
 if "%OS%" == "Windows_NT" setlocal
 
 pushd "%~dp0"
 call cassandra.in.bat
 
-if NOT DEFINED CASSANDRA_MAIN set CASSANDRA_MAIN=org.apache.cassandra.tools.StandaloneScrubber
-if NOT DEFINED JAVA_HOME goto :err
-
-REM ***** JAVA options *****
-set JAVA_OPTS=^
- -Dlogback.configurationFile=logback-tools.xml
-
-set TOOLS_PARAMS=
-
-"%JAVA_HOME%\bin\java" %JAVA_OPTS% %CASSANDRA_PARAMS% -cp %CASSANDRA_CLASSPATH% "%CASSANDRA_MAIN%" %*
-goto finally
-
-:err
-echo JAVA_HOME environment variable must be set!
-pause
-
-:finally
-
-ENDLOCAL
+"%JAVA_HOME%\bin\java" -cp %CLASSPATH% org.apache.cassandra.tools.SSTableExpiredBlockers %*

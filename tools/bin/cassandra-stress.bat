@@ -1,4 +1,3 @@
-@REM
 @REM  Licensed to the Apache Software Foundation (ASF) under one or more
 @REM  contributor license agreements.  See the NOTICE file distributed with
 @REM  this work for additional information regarding copyright ownership.
@@ -19,23 +18,5 @@ if "%OS%" == "Windows_NT" setlocal
 
 pushd "%~dp0"
 call cassandra.in.bat
-
-if NOT DEFINED CASSANDRA_MAIN set CASSANDRA_MAIN=org.apache.cassandra.tools.StandaloneUpgrader
-if NOT DEFINED JAVA_HOME goto :err
-
-REM ***** JAVA options *****
-set JAVA_OPTS=^
- -Dlogback.configurationFile=logback-tools.xml
-
-set TOOLS_PARAMS=
-
-"%JAVA_HOME%\bin\java" %JAVA_OPTS% %CASSANDRA_PARAMS% -cp %CASSANDRA_CLASSPATH% "%CASSANDRA_MAIN%" %*
-goto finally
-
-:err
-echo JAVA_HOME environment variable must be set!
-pause
-
-:finally
-
-ENDLOCAL
+if NOT DEFINED STRESS_HOME set STRESS_HOME=%CD%\..
+"%JAVA_HOME%\bin\java" %CASSANDRA_PARAMS% -cp %CASSANDRA_CLASSPATH% org.apache.cassandra.stress.Stress %*

@@ -19,7 +19,8 @@ if "%OS%" == "Windows_NT" setlocal
 
 pushd "%~dp0"
 call cassandra.in.bat
-if NOT DEFINED CASSANDRA_MAIN set CASSANDRA_MAIN=org.apache.cassandra.transport.Client
+
+if NOT DEFINED CASSANDRA_MAIN set CASSANDRA_MAIN=org.apache.cassandra.tools.StandaloneSplitter
 if NOT DEFINED JAVA_HOME goto :err
 
 REM ***** JAVA options *****
@@ -27,6 +28,7 @@ set JAVA_OPTS=^
  -Dlogback.configurationFile=logback-tools.xml
 
 set TOOLS_PARAMS=
+
 "%JAVA_HOME%\bin\java" %JAVA_OPTS% %CASSANDRA_PARAMS% -cp %CASSANDRA_CLASSPATH% "%CASSANDRA_MAIN%" %*
 goto finally
 
