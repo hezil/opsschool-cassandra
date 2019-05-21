@@ -1,6 +1,6 @@
 variable "region" {
   description = "AWS region for VMs"
-  default     = "us-east-2"
+  default     = "us-east-1"
 }
 
 variable "servers" {
@@ -14,12 +14,12 @@ variable "servers" {
 
 variable "keypair_name" {
   description = "name of ssh key to attach to hosts genereted during apply"
-  default     = "hezkeypair"
+  default     = "opsschool_cassandra"
 }
 
 variable "pem_key_name" {
   description = "name of ssh key to attach to hosts genereted during apply"
-  default     = "hezkeypair.pem"
+  default     = "opsschool_cassandra.pem"
 }
 
 variable "ami" {
